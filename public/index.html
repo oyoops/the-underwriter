@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-36Y7QNF54Z"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-36Y7QNF54Z');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="apple-touch-icon" sizes="180x180" href="/misc/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/misc/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/misc/favicon-16x16.png">
+    <link rel="manifest" href="/misc/site.webmanifest">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    
+    <title>Live Local Buddy</title>
+</head>
+
+<body>
+    <!-- Top Menu Bar -->   
+    <div id="menuBar">
+        <a href="https://www.oyoops.com"><img src="./imgs/logoMobile.png" alt="Live Local Pal Logo" id="logo"></a>
+        <a href="https://www.oyoops.com"><img src="./imgs/logoMobile.png" alt="Live Local Pal Mobile Logo" id="logoMobile"></a>
+    </div>
+
+    <!-- Main header -->
+    <h1 id="mainHeader">
+        🌞
+        <br>🏗️🏢
+        <br><b>Live Local</b> Buddy
+    </h1>
+
+    <!-- Initial Content (Address input) -->
+    <div id="initialContent">
+        <p>
+            Enter an address, and I'll tell you what you can build on it.
+        </p>
+        <form id="searchForm">
+            <input type="text" id="addressInput" placeholder="Address...">
+            <br>
+            <button type="submit">What can I do here, buddy?</button>
+        </form>
+        <p>
+            <br>Find out if a property qualifies for <a href="https://www.floridahousing.org/live-local-act"><u>Live Local</u></a> development.
+            <br>If it does, I'll help you calculate its new potential.
+            <br>Read <a href="https://www.cresunshine.com/"><u>more</u></a> about the new Florida law.
+        </p>
+    </div>
+
+    <!-- (OLD / NOT IN USE!) 'Tallest nearby building' information section -->
+    <!-- (this section describes the location of the tallest building within a one-mile radius of the input location) -->
+     <!-- <div id="result" style="display: none;"> -->
+        <!-- <div class="imageContainer"> -->
+            <!-- <div id="inputAddressImage" class="imageItem"></div> -->
+            <!-- <div id="tallestBuildingImage" class="imageItem"></div> -->
+        <!-- </div> -->
+     <!-- </div> -->
+
+    <!-- Spacing -->
+    <br><br><br><br>
+    
+    <!-- Map -->
+    <div id="map" style="width: 90%; display: none"></div>
+    
+    <!--- Loading Indicator -->
+    <br>
+    <div class="loading"><b>Please wait.</b>  Doing due diligence</div>
+    
+    <!-- Eligibility Result -->
+    <br>
+    <div id="eligibilityStatus"></div> 
+
+    <!-- Parcel data table -->
+    <br>
+    <table id="parcelDataTable" border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%; display: none;">
+        <thead>
+            <tr>
+                <th>Parcel ID</th>
+                <th>Acreage</th>
+                <th>Owner</th>
+                <th>Current Use</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here by JavaScript -->
+        </tbody>
+    </table>
+    
+    <!-- County data table -->
+    <table id="countyDataTable" border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%; display: none;">
+        <thead>
+            <tr>
+                <th>County</th>
+                <th>Municipality</th>
+                <th>Area Median Income</th>
+                <th>County Millage</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here by JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- County max rents table -->
+    <table id="countyMaxRentsTable" border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%; display: none;">
+        <thead>
+            <tr>
+                <th>Max Studio</th>
+                <th>Max 1BD</th>
+                <th>Max 2BD</th>
+                <th>Max 3BD</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be inserted here by JavaScript -->
+        </tbody>
+    </table>
+
+    <!-- START: PART 2 -- DEVELOPMENT PROGRAM I/O -->
+    <div id="developmentProgramInputSection" style="display: none;">
+
+        <br>
+        <h2><u>Property</u></h2>
+        
+        <!-- Acreage Input -->
+        <h4>How many acres will be used for multifamily?</h4>
+        <input type="number" id="acreageInput" placeholder="Acreage" value="10" step="0.25">      <i>Automatic!</i>
+        
+        <!-- Density Input (Max. units/ac. allowed) -->
+        <br>
+        <h4>What is the highest density allowed in the municipality?</h4>
+        <input type="number" id="densityInput" placeholder="Units/ac." value="50" step="5">  <i><u>Not</u> automatic!</i>
+
+        <br><br>
+        <h2><u>Unit Mix</u></h2>
+        
+        <!-- Affordable Units Percentage Slider -->
+        <label for="affordablePctSlider">
+            <h3>
+                Affordable units (<span id="affordablePctDisplay">40%</span> of total)
+            </h3>
+        </label>
+        <input type="range" id="affordablePctSlider" min="0" max="100" value="40" step="1">
+        
+        <!-- Unit Count Outputs -->
+        <!-- <h4>Unit Counts</h4> -->
+        <br>
+        <table id="unitCalculationTable" border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%; display: none;">
+            <thead>
+                <tr>
+                    <th>Affordable</th>
+                    <th>Market</th>
+                    <th>Total Units</th>
+                </tr>
+            </thead>
+            <tbody id="unitCalculationTableBody">
+                <!-- Data will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+    
+        <!-- Warnings Container -->
+        <div id="warningContainer" style="display: none"></div>
+
+        <!-- Unit Size Inputs Section (Table + checkbox) -->
+        <h3>Average Sizes</h3>
+        <label><input type="checkbox" id="matchAffordableSizes"> Match market-rate and affordable unit sizes?</label>
+        <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Market</th>
+                    <th>Affordable</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Studio</td>
+                    <td><input type="number" class="sizeInput marketSizeInput" id="marketStudioSize" placeholder="Size" value="500" step="25"></td>
+                    <td><input type="number" class="sizeInput affordableSizeInput" id="affordableStudioSize" placeholder="Size" value="500" step="25"></td>
+                </tr>
+                <tr>
+                    <td>1BD</td>
+                    <td><input type="number" class="sizeInput marketSizeInput" id="market1BDSize" placeholder="Size" value="750" step="25"></td>
+                    <td><input type="number" class="sizeInput affordableSizeInput" id="affordable1BDSize" placeholder="Size" value="750" step="25"></td>
+                </tr>
+                <tr>
+                    <td>2BD</td>
+                    <td><input type="number" class="sizeInput marketSizeInput" id="market2BDSize" placeholder="Size" value="1000" step="25"></td>
+                    <td><input type="number" class="sizeInput affordableSizeInput" id="affordable2BDSize" placeholder="Size" value="1000" step="25"></td>
+                </tr>
+                <tr>
+                    <td>3BD</td>
+                    <td><input type="number" class="sizeInput marketSizeInput" id="market3BDSize" placeholder="Size" value="1250" step="25"></td>
+                    <td><input type="number" class="sizeInput affordableSizeInput" id="affordable3BDSize" placeholder="Size" value="1250" step="25"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Weighted Average Unit Size Outputs -->
+        <h4>Weighted Averages:</h4>
+        <p>Market:  <span id="avgMarketSizeDisplay">0</span> sq. ft.</p>
+        <p>Affordable:  <span id="avgAffordableSizeDisplay">0</span> sq. ft.</p>
+        <p><b>Blended:  <span id="avgBlendedSizeDisplay">0</span> sq. ft.</b></p>
+
+        <!-- Market Rate Rents Input Section -->
+        <br>
+        <section id="marketRateInputSection" style="display: none;">
+            <h2><u>Revenue</u></h2>
+            <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Market Rent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Studio</td>
+                        <td><input type="number" class="marketRateInput" id="marketRateStudio" placeholder="$2,000" value="2000" step="100"></td>
+                    </tr>
+                    <tr>
+                        <td>1BD</td>
+                        <td><input type="number" class="marketRateInput" id="marketRate1BD" placeholder="$2,400" value="2400" step="100"></td>
+                    </tr>
+                    <tr>
+                        <td>2BD</td>
+                        <td><input type="number" class="marketRateInput" id="marketRate2BD" placeholder="$2,800" value="2800" step="100"></td>
+                    </tr>
+                    <tr>
+                        <td>3BD</td>
+                        <td><input type="number" class="marketRateInput" id="marketRate3BD" placeholder="$3,200" value="3200" step="100"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- <p><i>These placeholders are not representative of the subject.</i></p> -->
+        </section>
+
+        <!-- Rent per Sq. Ft. Table -->
+        <section id="rentPerSqFtTableSection" style="display: none;">
+            <!-- <br><h4>Rent per Sq. Ft.</h4> -->
+            <table id="rentPerSqFtTable" border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Market Rent/SF</th>
+                        <th>Affordable Rent/SF</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Studio</td>
+                        <td id="marketRateStudioPerSqFt">-</td>
+                        <td id="affordableStudioPerSqFt">-</td>
+                    </tr>
+                    <tr>
+                        <td>1BD</td>
+                        <td id="marketRate1BDPerSqFt">-</td>
+                        <td id="affordable1BDPerSqFt">-</td>
+                    </tr>
+                    <tr>
+                        <td>2BD</td>
+                        <td id="marketRate2BDPerSqFt">-</td>
+                        <td id="affordable2BDPerSqFt">-</td>
+                    </tr>
+                    <tr>
+                        <td>3BD</td>
+                        <td id="marketRate3BDPerSqFt">-</td>
+                        <td id="affordable3BDPerSqFt">-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Land + Total HC Inputs -->
+        <br>
+        <section id="landAndTotalHcInputSection" style="display: none;">
+            <h2><u>Development Costs</u></h2>
+            <table border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Land Price /unit</th>
+                        <th>Hard Costs /unit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="number" class="landInput" id="landCostPerUnitInput" placeholder="$25,000" value="25000" step="1000"></td>
+                        <td><input type="number" class="hcInput" id="totalHCPerUnitInput" placeholder="$200,000" value="200000" step="5000"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Land + Total HC Outputs  -->
+        <section id="totalLandAndTotalHcOutputSection" style="display: none;">
+            <table id="totalLandAndTotalHcTable" border="1" cellpadding="10" cellspacing="0" style="border-collapse:
+            collapse; width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Land</th>
+                        <th>Hard Costs</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="totalLandCost">-</td>
+                        <td id="totalHcCost">-</td>
+                        <td id="totalLandAndTotalHc">-</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="2">Land + Hard Costs per unit</th>
+                        <th id="totalLandAndTotalHcPerUnit">-</th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">Land + Hard Costs per sq. ft.</th>
+                        <th id="totalLandAndTotalHcPerSqFt">-</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+
+        <!-- Property Tax Abatement Outputs -->
+        <br>
+        <h2><u>Tax Abatement</u></h2>
+        <table id="abatementTable" border="1" cellpadding="10" cellspacing="0" style="border-collapse: collapse; width: 100%; display: none;">
+            <thead>
+                <tr>
+                    <th>
+                        % Tax Savings
+                    </th>
+                    <th>
+                        Δ$ Rent Equivalent
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="abatementTableBody">
+                <!-- Data will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+        <p>
+            <b>Δ$ Rent Equivalent</b>: Rent discount that would offset tax savings.
+            <br><br><i>The 30-year abatement is for ad valorem property taxes only.
+            <br>i.e., excludes fire/waste and CDD assessments</i>
+        </p>
+
+        <!-- New Search ('Try Again') Button -->
+        <br><br>
+        <button id="tryAgainButton" style="display: none;">Try another property</button>    
+        
+        <!-- AI IC Memo Output -->
+        <!-- <br> -->
+        <!-- <h4>Acquisition <u>AI</u>nalyst</h4> -->
+        <!-- <button id="runAIButton">Write Memo</button> -->
+        <br>
+
+        <div id="aiContainer" style="display: none;">
+            <p>Hey, nice property you've got here.
+            </br>Why don't I write an Investment Committee memo for you about it?</p>
+            <!-- Data will be inserted here by JavaScript -->
+        </div>
+        <br>
+
+        <!-- START: PART 3 -- (...) -->
+        <!-- END: PART 3 -- (...) -->
+        
+    </div>
+
+    <!-- Spacing -->
+    <br>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            <br>Last update: Oct. 10, 2023
+            <br>Created by <a href="https://www.twitter.com/oyoops" target="_blank"><u>@oyoops</u></a> | <a href="https://www.cresunshine.com/" target="_blank"><u>CRE☀️</u></a> | <a href="https://www.github.com/oyoops/sb102bot_fe"><u>GitHub</u></a>
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="./calculations.js"></script>
+    <script src="./utilities.js"></script>
+    <script src="./gmap.js"></script>
+    <script src="./useCodes.js"></script>
+    <script src="./main.js"></script>
+
+</body>
+</html>

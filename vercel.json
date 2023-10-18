@@ -1,0 +1,17 @@
+{
+    "version": 2,
+    "routes": [
+        {
+            "src": "/api/county_info/([^/]+)",
+            "dest": "/api/county_info.js?county_name=$1"
+        },
+        {
+            "src": "/api/parcels/nearby",
+            "dest": "/api/parcels_nearby.js"
+        },
+        {
+            "src": "/api/parcel_info",
+            "dest": "/api/parcel_info.js"
+        }
+    ]
+}

@@ -1,0 +1,363 @@
+html {
+    background: linear-gradient(to bottom, #f4f4f4, #e6e9ec);
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 2% 0; /* Added top and bottom padding */
+    background: linear-gradient(to bottom, #f4f4f4, #e6e9ec);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+}
+
+/* Hide mobile logo by default */
+#logoMobile {
+    display: none;
+}
+/* Media query to switch logos based on screen size */
+@media (max-width: 800px) {
+    #logo {
+        align-items: center; /* Center children elements */
+        display: none;
+    }
+    #logoMobile {
+        align-items: center; /* Center children elements */
+        display: block;
+    }
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8em;
+    color: #333;
+    margin-top: 20px; /* Reduced margin-top */
+    font-weight: 600;
+    transform: translateY(10px);
+    transition: opacity 1s, transform 1s;
+}
+
+p {
+    color: #666;
+    font-weight: 300;
+    transform: translateY(-10px); /* Reduced the translateY amount */
+    transition: opacity 1s, transform 1s;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children elements */
+    padding-left: 10px;
+    padding-right: 10px;
+    background: #fff;
+    padding: 20px 40px; 
+    border-radius: 8px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 80%; /* Increased from 60% to 80% */
+    max-width: 600px; /* New addition: set a maximum width */
+}
+
+/* Table styling */
+table {
+    width: 80%;
+    max-width: 1000px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-collapse: collapse;
+    background-color: #ffffff;      /* White background for tables */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);  /* A subtle shadow around the tables */
+}
+
+
+th, td {
+    border: 1px solid #e0e0e0;     /* Lighter border color */
+    padding: 12px 15px;            /* Increased padding for cells */
+    text-align: left;
+}
+
+th {
+    background-color: #f7f9fc;     /* Light background for table header */
+    color: #333;
+    font-weight: 600;              /* Bold font for table header */
+}
+
+tbody tr:hover {
+    background-color: #f2f4f7;    /* Hover effect for table rows */
+}
+
+/* Responsive design: If the screen width is 600px or less, make the tables full width */
+@media (max-width: 600px) {
+    table {
+        width: 100%;
+    }
+}
+
+#addressInput {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 95%;
+    margin: 0 auto; /* Center the input field */
+    margin-left: 10px;
+    margin-right: 10px;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    color: black; 
+    opacity: 1; 
+}
+
+/* Responsive styles for smaller screen widths */
+@media (max-width: 800px) {
+    form {
+        width: 90%;
+        margin: 0 auto; /* Center the input field */
+        margin-left: 10px;
+        margin-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #addressInput {
+        font-size: 14px; 
+    }
+}
+
+/* Responsive design: If the screen width is 600px or less, adjust styles for mobile */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.8em; /* Adjust font size for headers */
+    }
+
+    p {
+        font-size: 0.85em; /* Adjust font size for paragraphs */
+    }
+    
+    /* Add some margins around the text to make it look better */
+    p, h1, table {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    #addressInput {
+        font-size: 0.9em; /* Adjust font size for the input field */
+        width: 100%;
+        box-sizing: border-box;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background-color: #4678dc;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #044b98;
+}
+
+#menuBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px 0;
+    background-color: #afc6ed;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+}
+
+#menuBar a:first-child {
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+#menuBar a:last-child {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+#sunIcon {
+    display: inline-block;
+    background-color: #2b18b8;
+    border-radius: 50%;
+    width: 50x;
+    height: 50px;
+    position: relative;
+}
+
+#sunIcon::before {
+    content: "☀️";
+    font-size: 2.0em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+footer {
+    padding: 2px;
+    background-color: #afc6ed;
+    box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-weight: 200;
+    font-size: 0.6em;
+}
+
+footer a {
+    color: #044b98;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.loading {
+    display: none;
+    font-weight: 700;
+    color: #007BFF;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading::after {
+    content: ' ...';
+    animation: spin 1s infinite;
+}
+
+#tryAgainButton {
+    font-weight: 500;
+    background-color: #163f85;
+    color: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 300px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 1; /* Made it fully visible */
+}
+
+#runAIButton {
+    font-weight: 500;
+    background-color: #163f85;
+    color: #ffffff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 300px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 1; /* Made it fully visible */
+}
+
+.unitCalculationText {
+    font-weight: 300;
+    color: #666;
+}
+
+/* Slider styling */
+.slider {
+    width: 100%;
+    max-width: 500px;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+/* Style for the slider */
+input[type="range"] {
+    width: 100%;
+    max-width: 500px;
+    margin: 15px 0;
+    cursor: pointer;
+}
+
+/* Style for the checkboxes */
+label {
+    display: block;
+    margin: 10px 0;
+}
+
+/* Style for the unit size input tables */
+table {
+    margin-top: 20px;
+}
+
+.sizeInput {
+    width: 80%;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Disable style for input fields */
+input:disabled {
+    background-color: #eee;
+    cursor: not-allowed;
+}
+
+/* Added styles for Google Map container */
+#map {
+    width: 90%;
+    max-width: 1200px;
+    height: 350px;
+    border-radius: 30px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    display: none;
+    position: relative;
+    transform: translateY(20px);
+    transition: opacity 1s, transform 1s;
+}
+
+#aiContainer {
+    display: none;
+    max-width: 70%;
+    font-family: 'Roboto', serif;
+    margin-left: auto;
+    margin-right: auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
