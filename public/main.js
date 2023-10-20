@@ -8,6 +8,7 @@ let countyData;
 let cityData;
 let parcelData;
 let acres;
+let maxMuniDensity;
 
 let totalUnits;
 let affordableUnits;
@@ -222,6 +223,31 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // set acreage input placeholder
             acreageInput.value = acres.toFixed(2);
+
+            // ...
+
+
+
+
+            // DENSITY TESTING!
+            const maxDensity = await getMaxDensity(county, city);
+            if (maxDensity !== null) {
+                // set global
+                maxMuniDensity = maxDensity;
+                // set input placeholder
+                densityInput.value = maxDensity.toFixed(0);
+            } else {
+                console.log ("WARNING: Maximum municipal density was not found!")
+                // set global
+                maxMuniDensity = 0;
+                // set input placeholder
+                densityInput.value = maxMuniDensity.toFixed(0);
+            }
+
+
+
+
+            // ...
 
             // affordable percentage slider
             affordablePercentageSlider.value = 40; // 0.40; // default = 40% affordable units
